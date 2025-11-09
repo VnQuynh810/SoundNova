@@ -7,16 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.soundnova.HomeActivity
+import com.example.soundnova.R
 import com.example.soundnova.databinding.LibraryBinding
 import com.example.soundnova.models.Album
 import com.example.soundnova.models.Albums
 import com.example.soundnova.models.Artist
 import com.example.soundnova.models.TrackData
 import com.example.soundnova.models.Tracks
-import com.example.soundnova.screens.adapters.OnItemClickTrackListener
-import com.example.soundnova.screens.adapters.SongAdapter
+import com.example.soundnova.screens.adapters.FavoriteLibraryAdapter
+import com.example.soundnova.screens.adapters.FavoriteLibraryItem
+import com.example.soundnova.screens.adapters.OnFavoriteItemClickListener
 import com.example.soundnova.service.DeezerApiHelper
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
@@ -29,9 +32,11 @@ import kotlinx.coroutines.withContext
 class LibraryFragment : Fragment() {
 
     private lateinit var binding: LibraryBinding
-    private lateinit var adapter: SongAdapter
+    private lateinit var adapter: FavoriteLibraryAdapter
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private val db = Firebase.firestore
+    private var favoriteSongs: Tracks = Tracks()
+    private var favoriteAlbums: Albums = Albums()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -166,25 +171,48 @@ class LibraryFragment : Fragment() {
             try {
                 // Fetch favorite songs
                 val tracks = fetchFavoriteSongs()
+                favoriteSongs = tracks
                 Log.d("LibraryFragment", "Fetched favorite tracks: ${tracks.data.size}")
 
                 // Fetch favorite albums
                 val albums = fetchFavoriteAlbums()
+                favoriteAlbums = albums
                 Log.d("LibraryFragment", "Fetched favorite albums: ${albums.data.size}")
 
                 // Setup RecyclerView
                 binding.libraryRecyclerView.layoutManager =
                     LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
-                adapter = SongAdapter(tracks, object : OnItemClickTrackListener {
-                    override fun onItemClick(position: Int, tracks: Tracks) {
-                        val bundle = Bundle().apply {
-                            putParcelable("tracks", tracks)
-                            putInt("position", position)
+                val favoriteItems = mutableListOf<FavoriteLibraryItem>()
+                tracks.data.forEachIndexed { index, track ->
+                    favoriteItems.add(FavoriteLibraryItem.SongItem(track, index))
+                }
+                favoriteAlbums.data.forEach { album ->
+                    favoriteItems.add(FavoriteLibraryItem.AlbumItem(album))
+                }
+
+                adapter = FavoriteLibraryAdapter(favoriteItems, object : OnFavoriteItemClickListener {
+                    override fun onItemClick(item: FavoriteLibraryItem) {
+                        when (item) {
+                            is FavoriteLibraryItem.SongItem -> {
+                                val bundle = Bundle().apply {
+                                    putParcelable("tracks", favoriteSongs)
+                                    putInt("position", item.position)
+                                }
+                                (activity as? HomeActivity)?.handleMusicBottomBar(bundle)
+                            }
+                            is FavoriteLibraryItem.AlbumItem -> {
+                                val albumPosition = favoriteAlbums.data.indexOfFirst { it.id == item.album.id }
+                                val position = if (albumPosition >= 0) albumPosition else 0
+                                val bundle = Bundle().apply {
+                                    putParcelable("albums", favoriteAlbums)
+                                    putInt("position", position)
+                                }
+                                findNavController().navigate(R.id.albumPlayerFragment, bundle)
+                            }
                         }
-                        (activity as? HomeActivity)?.handleMusicBottomBar(bundle)
                     }
-                }, 1)
+                })
 
                 binding.libraryRecyclerView.adapter = adapter
 

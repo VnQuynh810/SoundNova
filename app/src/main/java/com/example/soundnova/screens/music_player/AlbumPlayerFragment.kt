@@ -5,8 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -15,6 +13,8 @@ import com.bumptech.glide.Glide
 import com.example.soundnova.HomeActivity
 import com.example.soundnova.R
 import com.example.soundnova.databinding.AlbumListBinding
+import com.example.soundnova.FavoriteLibrary
+import com.example.soundnova.models.Album
 import com.example.soundnova.models.Albums
 import com.example.soundnova.models.Tracks
 import com.example.soundnova.screens.adapters.OnItemClickTrackListener
@@ -25,10 +25,11 @@ import kotlinx.coroutines.launch
 class AlbumPlayerFragment: Fragment() {
 
     private lateinit var binding: AlbumListBinding
-    private lateinit var tracks: Tracks
     private lateinit var albums: Albums
     private var currentAlbumIndex = 0
     private lateinit var adapterSong: SongAdapter
+    private lateinit var favoriteLibrary: FavoriteLibrary
+    private var isAlbumFavorite: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -40,6 +41,7 @@ class AlbumPlayerFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = AlbumListBinding.bind(view)
+        favoriteLibrary = FavoriteLibrary(requireContext())
 
         try {
             albums = arguments?.getParcelable<Albums>("albums")!!
@@ -52,6 +54,33 @@ class AlbumPlayerFragment: Fragment() {
         binding.backBtn.setOnClickListener {
             findNavController().popBackStack()
         }
+
+        binding.addToLibrary.setOnClickListener {
+            val album = albums.data.getOrNull(currentAlbumIndex) ?: return@setOnClickListener
+            val albumId = album.id ?: return@setOnClickListener
+            val albumTitle = album.title ?: ""
+            val artistId = album.artist?.id ?: 0L
+            val artistName = album.artist?.name ?: ""
+            val coverUrl = album.coverBig ?: album.coverMedium ?: album.coverSmall ?: ""
+
+            if (isAlbumFavorite) {
+                favoriteLibrary.removeFavAlbum(albumId)
+                updateFavoriteIcon(false)
+                album.isLiked = false
+                isAlbumFavorite = false
+            } else {
+                favoriteLibrary.addFavAlbum(
+                    id = albumId,
+                    title = albumTitle,
+                    artistId = artistId,
+                    artistName = artistName,
+                    coverUrl = coverUrl
+                )
+                updateFavoriteIcon(true)
+                album.isLiked = true
+                isAlbumFavorite = true
+            }
+        }
     }
 
     private fun playAlbum(Index: Int) {
@@ -59,8 +88,10 @@ class AlbumPlayerFragment: Fragment() {
         Glide.with(this).load(album.coverBig).into(binding.imageAlbumCover)
         binding.textAlbumName.text = album.title
         binding.textAlbumName.isSelected = true
-        binding.textArtistName.text = "BLACKPINK"
+        binding.textArtistName.text = album.artist?.name ?: ""
         binding.textArtistName.isSelected = true
+
+        updateAlbumFavoriteState(album)
 
         lifecycleScope.launch {
             //val tracks = album.tracks
@@ -85,6 +116,23 @@ class AlbumPlayerFragment: Fragment() {
             }
             binding.recyclerViewSongs.adapter = adapterSong
         }
+    }
+
+    private fun updateAlbumFavoriteState(album: Album) {
+        val albumId = album.id ?: return
+        favoriteLibrary.checkFavAlbum(albumId) { isFavorite ->
+            view?.post {
+                updateFavoriteIcon(isFavorite)
+                isAlbumFavorite = isFavorite
+                album.isLiked = isFavorite
+            }
+        }
+    }
+
+    private fun updateFavoriteIcon(isFavorite: Boolean) {
+        binding.addToLibrary.setImageResource(
+            if (isFavorite) R.drawable.icon_add_to_library_on else R.drawable.icon_add_to_library
+        )
     }
 
     override fun onDestroyView() {
