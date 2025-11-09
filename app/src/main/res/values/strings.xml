@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">SoundNova</string>
+    <string name="textViewLogin">Welcome back!\nLet\'s start the journey</string>
+    <string name="editTextEmail">Phone number/Email</string>
+    <string name="editTextPassword">Password</string>
+    <string name="buttonConfirmSignIn">Log in</string>
+    <string name="textViewForgetPassword">Forget password?</string>
+    <string name="textViewSignUp1">You don\'t have an account yet. Click</string>
+    <string name="textViewSignUp2">Sign up</string>
+    <string name="editTextSignUpUsername">Full Name</string>
+    <string name="editTextSignUpEmail">Email</string>
+    <string name="editTextSignUpPhoneNumber">Phone number</string>
+    <string name="editTextRepeatPassword">Repeat password</string>
+    <string name="buttonRegister">Sign up</string>
+    <string name="textViewSignIn">You already have an account. Click</string>
+    <string name="textWelcome">Welcome back!</string>
+    <string name="textFeelLikeToday">What do you feel like today?</string>
+    <string name="editTextSearch">What do you want to listen to?</string>
+    <string name="tabRecent">Recent</string>
+    <string name="tabTop50">Top 50</string>
+    <string name="tabChill">Chill</string>
+    <string name="tabRnB"><![CDATA[R&B]]></string>
+    <string name="tabFestival">Festival</string>
+    <string name="textFavorite">Your favorites</string>
+    <string name="textKaraoke">Karaoke</string>
+    <string name="textViewChangePassword">Change Password</string>
+    <string name="back">Back</string>
+    <string name="buttonSendBTN">Send Authentication Email</string>
+    <string name="textViewPlz">Please enter all fields</string>
+    <string name="editTextCurrentPass">Current password</string>
+    <string name="editTextNewPass">New password</string>
+    <string name="editTextConfirmNewPass">Confirm new password</string>
+    <string name="buttonSendChange">Change</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="song_name">This is song name</string>
+    <string name="song_artist">This is song artist</string>
+    <string name="durationPlayed">1:27</string>
+    <string name="durationTotal">3:48</string>
+    <string name="enterYourEmail">Please enter your Email</string>
+</resources>

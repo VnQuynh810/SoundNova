@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Logo  -->
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="52dp"
+        android:src="@drawable/logo"/>
+-
+    <!-- Tiêu đề đăng nhập -->
+    <TextView
+        android:id="@+id/textViewLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="52dp"
+        android:text="@string/textViewLogin"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <!-- Input cho Username -->
+    <EditText
+        android:id="@+id/editTextSignInUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/edit_text_border"
+        android:hint="@string/editTextEmail"
+        android:textColorHint="@color/white"
+        android:inputType="text"
+        android:padding="16dp"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+    <!-- Input cho Mật khẩu -->
+    <EditText
+        android:id="@+id/editTextSignInPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="28dp"
+        android:background="@drawable/edit_text_border"
+        android:hint="@string/editTextPassword"
+        android:textColorHint="@color/white"
+        android:inputType="textPassword"
+        android:padding="16dp"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:fontFamily="sans-serif" />
+
+
+    <TextView
+        android:id="@+id/note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text=""
+        android:textStyle="italic"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:layout_marginBottom="24dp"/>
+
+
+    <!-- Nút đăng nhập -->
+    <Button
+        android:id="@+id/buttonConfirmLogin"
+        android:layout_width="200dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="52dp"
+        android:background="@drawable/button_border"
+        android:text="@string/buttonConfirmSignIn"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textAllCaps="false" />
+
+    <!-- Liên kết quên mật khẩu -->
+    <TextView
+        android:id="@+id/textViewForgetPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:focusable="true"
+        android:clickable="true"
+        android:text="@string/textViewForgetPassword"
+        android:textColor="#7CC1EF" />
+
+    <!-- Liên kết đăng ký tài khoản -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/textViewSignUp1"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/textViewSignUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:focusable="true"
+            android:clickable="true"
+            android:text="@string/textViewSignUp2"
+            android:textColor="#7CC1EF" />
+    </LinearLayout>
+
+</LinearLayout>

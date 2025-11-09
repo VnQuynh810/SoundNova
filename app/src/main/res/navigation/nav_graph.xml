@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.soundnova.screens.home_screen.HomeFragment"
+        android:label="home_activity"
+        tools:layout="@layout/home_activity">
+        <action
+            android:id="@+id/action_homeFragment_to_albumPlayerFragment"
+            app:destination="@id/albumPlayerFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_artistPlayerFragment"
+            app:destination="@id/artistPlayerFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.soundnova.SearchFragment"
+        android:label="search_fragment"
+        tools:layout="@layout/search" >
+        <argument
+            android:name="tracks"
+            app:argType="com.example.soundnova.models.Tracks" />
+        <argument
+            android:name="position"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_search_to_music"
+            app:destination="@id/musicPlayerFragment"/>
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/libraryFragment"
+        android:name="com.example.soundnova.screens.music_player.LibraryFragment"
+        android:label="library_fragment"
+        tools:layout="@layout/library" >
+        <argument
+            android:name="tracks"
+            app:argType="com.example.soundnova.models.Tracks" />
+        <argument
+            android:name="position"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_lib_to_music"
+            app:destination="@id/musicPlayerFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.soundnova.SettingsFragment"
+        android:label="settings_fragment"
+        tools:layout="@layout/setting" />
+
+    <fragment
+        android:id="@+id/musicPlayerFragment"
+        android:name="com.example.soundnova.screens.music_player.MusicPlayerFragment"
+        android:label="player_activity"
+        tools:layout="@layout/player_activity">
+        <action
+            android:id="@+id/action_musicPlayerFragment_to_lyricsFragment"
+            app:destination="@id/lyricsFragment" />
+        <action
+            android:id="@+id/action_music_to_record"
+            app:destination="@id/karaokeFragment"/>
+    </fragment>
+
+<!--    <fragment-->
+<!--        android:id="@+id/recordingFragment"-->
+<!--        android:name="com.example.soundnova.screens.music_player.RecordingFragment"-->
+<!--        tools:layout="@layout/record"/>-->
+    <fragment
+        android:id="@+id/karaokeFragment"
+        android:name="com.example.soundnova.screens.music_player.KaraokeFragment"
+        tools:layout="@layout/karaoke">
+    <action
+        android:id="@+id/action_kara_to_musicPlayerFragment"
+        app:destination="@id/musicPlayerFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/lyricsFragment"
+        android:name="com.example.soundnova.screens.music_player.LyricsFragment"
+        android:label="lyrics_fragment"
+        tools:layout="@layout/lyrics_fragment">
+    </fragment>
+
+    <fragment
+        android:id="@+id/albumPlayerFragment"
+        android:name="com.example.soundnova.screens.music_player.AlbumPlayerFragment"
+        android:label="album_activity"
+        tools:layout="@layout/album_list">
+        <argument
+            android:name="tracks"
+            app:argType="com.example.soundnova.models.Tracks" />
+        <argument
+            android:name="position"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_albumPlayerFragment_to_musicPlayerFragment"
+            app:destination="@id/musicPlayerFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/artistPlayerFragment"
+        android:name="com.example.soundnova.screens.music_player.ArtistPlayerFragment"
+        android:label="artist_activity"
+        tools:layout="@layout/artist_list">
+        <argument
+            android:name="tracks"
+            app:argType="com.example.soundnova.models.Tracks" />
+        <argument
+            android:name="position"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_artistPlayerFragment_to_musicPlayerFragment"
+            app:destination="@id/musicPlayerFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/changePassword"
+        android:name="com.example.soundnova.ChangePassword"
+        android:label="change_password"
+        tools:layout="@layout/change_password" />
+
+</navigation>
